@@ -3,7 +3,7 @@
 This is a preview repository of a private project.
 The code is not present/fully present for privacy reasons.
 
-![TD1](https://github.com/ImAShark/TDPublic/assets/32833605/d772f926-bcaf-4f6a-b4a3-a99b5ea76bac)
+![TD1](https://github.com/ImAShark/TDPublic/TD1.png)
 
 ![TD2](https://github.com/ImAShark/TDPublic/assets/32833605/eb74f923-a9de-4d14-a378-acdb80a65981)
 
