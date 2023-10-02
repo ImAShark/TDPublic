@@ -4,25 +4,25 @@ using UnityEngine;
 
 public class ProjectileTower : MonoBehaviour
 {
-    public TowerProperties towerProperties;
-    public GameObject weapon;
-    public GameObject projectile;
-    public Transform projectileOrigin;
-    public Transform projectileList;
-    public List<GameObject> targets;
+    public TowerProperties towerProperties; //used to import stats like damage, firerate, etc.
+    public GameObject weapon; //get the object that rotates towards the target if available
+    public GameObject projectile; //Projectile the tower shoots
+    public Transform projectileOrigin; //Spawnpoint of the projectile
+    public Transform projectileList; //List with the shot projectiles to prevent clutter
+    public List<GameObject> targets; //List with all available targets
 
-    public float noFireZone;
-    public GameObject noFireRange;
-    public LayerMask mask;
+    public float noFireZone; //Zone around the tower it can't target
+    public GameObject noFireRange; //Visual object for the noFireRange
+    public LayerMask mask; //Mask to set targets and to check if it can be hit, ignores uneccesary gameOjbects
 
-    public AudioClip shoot;
+    public AudioClip shoot; //Audio for shooting
     public AudioSource audioSource;
 
-    [HideInInspector] public int damage;
-    [HideInInspector] public float slowTime = 0f;
-    [HideInInspector] public float fireRate;
+    [HideInInspector] public int damage; //The damage of the projectile
+    [HideInInspector] public float slowTime = 0f; //The amount of time it slows down targets hit
+    [HideInInspector] public float fireRate; //How fast the tower can shoot
 
-    [HideInInspector] public float timer;
+    [HideInInspector] public float timer; //Timer for the fireRate
 
     public virtual void Start()
     {
@@ -36,7 +36,7 @@ public class ProjectileTower : MonoBehaviour
         ShootTarget();        
     }
 
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other) //Adds targets to the target list
     {
         if (other.tag == "Enemy")
         {
@@ -44,7 +44,7 @@ public class ProjectileTower : MonoBehaviour
         }
     }
 
-    private void OnTriggerExit(Collider other)
+    private void OnTriggerExit(Collider other) //Removes targets to the target list
     {
         if (other.tag == "Enemy")
         {
@@ -52,7 +52,7 @@ public class ProjectileTower : MonoBehaviour
         }
     }
 
-    public virtual void ShootTarget()
+    public virtual void ShootTarget() //Shoots a raycast to the target, if it is not obstructed by terrain it fires a projectile
     {
         if (targets.Count > 0 && targets[0] == null)
         {
@@ -92,7 +92,7 @@ public class ProjectileTower : MonoBehaviour
         }
     }
 
-    private void AimAtTarget()
+    private void AimAtTarget() //Rotates the weapon to the target if it has one
     {
         if (weapon != null)
         {
@@ -107,7 +107,7 @@ public class ProjectileTower : MonoBehaviour
         
     }
 
-    protected void PlayAudio(AudioClip clip)
+    protected void PlayAudio(AudioClip clip) //Plays the audio
     {
         if (!audioSource.isPlaying)
         {
@@ -116,20 +116,20 @@ public class ProjectileTower : MonoBehaviour
         }
     }
 
-    private void TimerCountdown()
+    private void TimerCountdown() //Countdown timer for fireRate
     {
-        if (timer > -100)
+        if (timer > -100) //Stops counting after 100 ticks to prevent memory overflow
         {
             timer = timer - (Time.deltaTime * 1);
         }
     }
 
-    public Vector3 GetNoFireRange()
+    public Vector3 GetNoFireRange() //Gets the range of the noFireZone for the visual
     {
         return new Vector3(noFireZone * 2, noFireZone * 2, noFireZone * 2);
     }
 
-    public void UpdateStats()
+    public void UpdateStats() //Updates the stats of the tower. For example: on start and after an upgrade
     {
         noFireRange.transform.localScale = new Vector3(noFireZone / 8, noFireZone / 8, noFireZone / 8);
 
